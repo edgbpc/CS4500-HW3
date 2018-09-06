@@ -1,0 +1,70 @@
+CSC 4500, Fall 2018
+HW3: Pyramid Complications
+
+Shown below is a pyramid of integers. Think of this pyramid painted on a chalk board. You start a “game” by placing your
+ finger at the 1. Then you roll a fair dice with exactly 4 sides, labeled UL, UR, DL, and DR. (Imagine that you have
+ such a thing.) UL means “up left.” UR means “up right.” DL means “down left.” And DR means “down right.” This
+ particular pyramid has 6 levels and 21 nodes.
+
+               1
+            2     3
+         4     5     6
+      7     8     9    10
+   11    12   13    14    15
+16   17    18    19    20    21
+
+
+Sometimes, you can’t make all the possible moves. For example, if you are at 1, you can’t go up. If you are at 19, you
+can’t go down. If you roll a direction you can’t move, you stay where you are in the pyramid, but that does count as a
+“move.”
+
+There is another aspect to this game. Whenever you make a move, and when you start the game on the number 1, you put a
+dot next to the number where you are. You put a new dot on the number even if the “move” forces you to stay on the same
+number. You keep playing this strange “game” until every number has at least one dot. At that point, the game is over.
+
+After the game is over, you will record the total number of moves it took to finish the game, the average number of dots
+on the numbers, and the largest number of dots on any number. More than one number may have exactly that number of dots.
+I don’t care which nodes have this maximum number of dots. You will collect all of this information for each game you
+simulate; you will simulate more than one each time the program runs. (More about this later.)
+
+Your program should simulate this game using Python. All the same rules apply as HW1 and HW2 for submitting your
+program. Output should go to a text file called HW3lastnameOutfile.txt, where “lastname” is your last name. My filename
+would be HW3millerOutfile.txt.
+
+Both to the screen and to the output file, you should put a short explanation of the game, and what your simulation is
+doing. Then put a blank line. Next, you should ask the interactive user (via an appropriate prompt) to give the number
+of levels you would like your pyramid to have. The user should type in an integer from 2 to 25 inclusive. If the user
+types in anything inappropriate, your program should print an appropriate error message, and reprompt, repeating until
+you get an appropriate response.
+
+Next you should prompt (and check and reprompt if necessary) to get another integer, this one between 10 and 50
+inclusive, that tells how many times you should simulate the pyramid game with this sized pyramid. I’ll call that number
+T.
+
+Once the number of levels is entered, you should run T simulated games instead of the one simulated game in HW2. As you
+run these games, you should keep the data necessary to give as output to the screen and to the output file:
+
+1. the overall average number of moves that it took to finish the T simulated games
+
+2. The minimum and maximum number of moves in the T simulated games
+
+3. From the maximum number of dots in each game, give the minimum maximum, the average maximum, and the maximum maximum.
+ (If you don’t know what that means, please ask in class.)
+
+When you start each simulated game, you may not know how long a game will take to play. An interactive user might get
+nervous watching a blank screen. So to make the person waiting less nervous, please print both to the screen and to the
+output text file the number of the node where the game is at the moment, followed by a comma, and repeat. The last
+number as the game ends should be followed by a period, not a comma.
+
+All output to the screen and the file should include appropriate labeling and formatting so that the user knows what’s
+happening and (after it runs) what happened.
+
+If you have questions, please email me at millerkei@umsl.edu. This is an individual project, not a group project; do not
+get help from anyone except your instructor (me). If you use Web sites or books to help you with your programming, list
+those resources in your comments on HW2. Give credit where credit is due.
+
+
+Let the games continue.
+
+Keith
+
