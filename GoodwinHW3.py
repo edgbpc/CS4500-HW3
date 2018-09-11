@@ -271,6 +271,8 @@ outputFile.close()
 # used defined dice rolls to determine if currentlocation changed to expected location
 # displayed gameDotTracker to be able to confirm dot summing and max dots to verify index
 # git used for version control.
+# tested upper and lower boundries for number of levels and number of times to run sim
+# tested to validate user input is an int
 
 
 
