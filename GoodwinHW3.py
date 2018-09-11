@@ -4,11 +4,11 @@ Eric Goodwin
 Python 3.7.0
 PyCharm IDE
 CS 4500 Introduction to the Software Profession
-TODO - External Files created - HW2goodwinOutfile.txt
+External Files created - H3goodwinOutfile.txt
 Program creates this file with output data.  data is same as what
 is displayed on the screen running of the program.
 
-Program does not take an input file or commands from the user
+
 
 Resources Used:
 https://docs.python.org/3/library
@@ -53,6 +53,12 @@ I also added a pause in the execution so the use can "see" the locations being a
 
 Use git for version control.
 
+New Features for HW3:
+User can specify a number of leves to the pyramid between 2 and 25 levels.
+Program checks for valid input and if incorrect, prints error message and reprompts.  repeats until valid input given
+User can specify number of times to run the simulation between 10 and 20.
+Program checks for valid input  and if incorrect, prints error message and reprompts. repeats until valid input given
+
 
 Development:
 
@@ -65,7 +71,7 @@ import random
 # import time
 
 # program creates this file if not already created
-outputFile = open("HW2goodwinOutfile.txt", "w")
+outputFile = open("HW3goodwinOutfile.txt", "w")
 
 introMessage = """Dice Rolling Simulation - 
 Program simulates navigating of a pyramid of integers using a four sided die.
@@ -77,6 +83,58 @@ When game terminates, vital statistics are reported."""
 
 print(introMessage + "\n")
 outputFile.write(introMessage + "\n\n")
+
+
+# follow section purpose is to obtain number of levels from the user.
+numberOfLevelsIsNotValid = True  # controls while loop.  must become false to break the loop
+numLevels = 2  # declare number of levels.  minimum is 2 levels
+
+# this while loop continues until a valid int in range of 2 to 25 is received.
+while numberOfLevelsIsNotValid:
+    numLevels = input("Enter integer between 2 and 25 for number of levels")
+
+    # Check if input is a valid int
+    if numLevels.isdigit():
+        # check if the int is in the range of 2 to 25
+        if int(numLevels) in range(2, 26):
+            print("Hot Sauce")
+            numberOfLevelsIsNotValid = False
+        else:
+            print("Invalid number of levels")
+            numberOfLevelsIsNotValid = True
+    else:
+        print("Integer not entered.")
+        numberOfLevelsIsNotValid = True
+
+print("You entered " + numLevels + " levels for the pyramid")
+
+numberOfTimesSimRanIsNotValid = True # controls the while loop.  must become false to break the loop
+numTimesRan = 10 # declare number of times sim is ran.  default is 10
+
+while numberOfTimesSimRanIsNotValid:
+    numTimesRan = input("Enter number of times to run the simulation between 10 and 20:")
+
+    # Check if input is a valid int
+    if numTimesRan.isdigit():
+        #check if the int is in the range of 10 to 20
+        if int(numTimesRan) in range(10, 21):
+            print("Zesty")
+            numberOfTimesSimRanIsNotValid = False
+        else:
+            print("Invalud number of times")
+            numberOfTimesSimRanIsNotValid = True
+
+    else:
+        print("Integer not entered.")
+        numberOfTimesSimRanIsNotValid = True
+
+print("You entered " + numTimesRan + " to run the sim")
+
+exit(1)
+
+
+
+
 
 # declaring the gameBoardLocation list.  Lists are index from 0. Ignoring index 0 for this project
 gameBoardLocation = [[0, 0, 0, 0, 0]] * 22
