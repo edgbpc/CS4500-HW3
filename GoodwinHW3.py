@@ -59,6 +59,7 @@ Program checks for valid input and if incorrect, prints error message and reprom
 User can specify number of times to run the simulation between 10 and 20.
 Program checks for valid input  and if incorrect, prints error message and reprompts. repeats until valid input given
 
+todo add feature to turn off on screen reporting of nodes visited
 
 Development:
 
