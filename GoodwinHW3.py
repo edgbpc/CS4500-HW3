@@ -131,9 +131,38 @@ while numberOfTimesSimRanIsNotValid:
 
 print("You entered " + numTimesRan + " to run the sim")
 
+
+
+# version 2 gameboard
+
+# calculate number of nodes
+numNodes = 0
+tempLevels = int(numLevels)
+
+for x in range(tempLevels):
+    numNodes += int(numLevels)
+    tempLevels -= 1
+
+
+print(numNodes)
+
+# create gameDotTrackerV2
+gameDotTrackerV2 = [0] * int(numNodes)
+
+# create gameBoard for Version 2 of pyramid
+gameBoardLocationV2 = [[0, 0, 0, 0]] * int(numNodes)
+
+# determine the rightMostNode
+rightMostNode = int((int(numLevels) * (int(numLevels) + 1) / 2))
+print(rightMostNode)
+
+# determine the leftMostNode
+leftMostNode = int(rightMostNode) - (int(numLevels) - 1)
+print(leftMostNode)
+# populate nodes
+
+
 exit(1)
-
-
 
 
 
