@@ -18,6 +18,8 @@ https://www.tutorialspoint.com/python/list_max.htm
 http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/
 https://stackoverflow.com/questions/493386/how-to-print-without-newline-or-space
 https://stackoverflow.com/questions/10660435/pythonic-way-to-create-a-long-multi-line-string
+https://www.programiz.com/python-programming/methods/list/clear
+https://www.tutorialspoint.com/python/list_min.htm
 
 
 TODO
@@ -132,52 +134,24 @@ while numberOfTimesSimRanIsNotValid:
 print("You entered " + numTimesRan + " to run the sim")
 
 
+# list declarations for recording statistics
+allMoves = [0] * int(numTimesRan)
+maxMoves = [0] * int(numTimesRan)
+
 
 # version 2 gameboard
 
 # calculate number of nodes
-numNodes = 0
-tempLevels = int(numLevels)
+numNodes = int((int(numLevels) * (int(numLevels) + 1)) / 2)
+# create gameDotTrackerV2. uses the number of nodes to create the list.  add 1 because lists are index starting at 0
+gameDotTrackerV2 = [0] * (numNodes + 1)
 
-for x in range(tempLevels):
-    numNodes += int(numLevels)
-    tempLevels -= 1
+# create gameBoard for Version 2 of pyramid. uses the number of nodes to create the list.  add 1 because lists are
+# index starting at 0
+gameBoardLocationV2 = [0, 0, 0, 0, 0] * (numNodes + 1)
 
-
-print(numNodes)
-
-# create gameDotTrackerV2
-gameDotTrackerV2 = [0] * int(numNodes)
-
-# create gameBoard for Version 2 of pyramid
-gameBoardLocationV2 = [[0, 0, 0, 0]] * int(numNodes)
-
-# determine the rightMostNode
-rightMostNode = int((int(numLevels) * (int(numLevels) + 1) / 2))
-print(rightMostNode)
-
-# determine the leftMostNode
-leftMostNode = int(rightMostNode) - (int(numLevels) - 1)
-print(leftMostNode)
-# populate nodes
-
-
-exit(1)
-
-
-
-# declaring the gameBoardLocation list.  Lists are index from 0. Ignoring index 0 for this project
-gameBoardLocation = [[0, 0, 0, 0, 0]] * 22
-
-# gameDotTracker keeps count times a location is visited.  Game ends when all locations visited.
-gameDotTracker = [0] * 22
-# i start the 0 location as 1 so that the game can end if no 0s are found in the list.  this requires an adjustment of
-# -1 to the game statistics
-gameDotTracker[0] = 1
-# i opted to count the start of the game as a visit to location 1.  remove this initialization to not have the start
-# counted as a visit
-gameDotTracker[1] = 1
-
+# game boards for both version 1 and version follow the same encoding rules
+#
 # gameBoardLocation contains the game data for each position on the board.
 # Encoding is as follows:
 # index 0 - dot counter
@@ -186,8 +160,80 @@ gameDotTracker[1] = 1
 # index 2 - Valid Lower Left Movement
 # index 3 - Valid Upper Right Movement
 # index 4 - Valid Lower Right Movement
-# index of gameBoardLocation cooresponds to a location on the pyramid.
+# index of gameBoardLocation corresponds to a location on the pyramid.
 # Example: gameBoardLocation[1] refers to position 1
+
+# generate gameBoardLocationV2 size
+
+# populate nodes
+
+# gameBoardLocationV2[0] not used for this project.  initializing as in version 1
+gameBoardLocationV2[0] = [0, None, None, None, None]
+# level 1 and  level 2 are required. setting these as special cases.  they will not generate automatically
+# same values as in version 1
+
+for x in range(1, (int(numLevels) + 1)):
+    # levels 1 and 2 are special cases and declared implicitly
+    if x == 1:
+        gameBoardLocationV2[1] = [0, None, 2, None, 3]  # dot count starts at 0, valid moves are lower left, lower right
+
+    if x == 2:
+        gameBoardLocationV2[2] = [0, None, 4, 1, 5]
+        gameBoardLocationV2[3] = [0, 1, 5, None, 6]
+
+
+    # generates the nodes for all the rows in the game board that are not row 1, 2 or the terminating row
+    if x >= 3 and x < int(numLevels):
+        print("dfaed")
+
+        # determine the rightMostNode
+        rightMostNode = int((int(x) * (int(x) + 1) / 2))
+        # determine the leftMostNode
+        leftMostNode = int(rightMostNode) - (int(x) - 1)
+
+        # populate right most node's valid locations into the list
+        gameBoardLocationV2[rightMostNode] = [0, rightMostNode - int(x), rightMostNode + int(x), None,
+                                              rightMostNode + int(x) + 1]
+
+        # populate left most node's valid location into the list
+        gameBoardLocationV2[leftMostNode] = [0, None, leftMostNode + int(x), leftMostNode - int(x) + 1,
+                                             leftMostNode + int(x) + 1]
+
+
+        # purpose of the following for loop is to generate the internal nodes and the valid moves for each of the
+        # internal nodes.  start at the left most node and continue to the right most node
+        # skips the calculation for left and right most nodes as they are defined as special cases
+        # results validated against the version 1 of the hard encoded list from HW 1
+        y = leftMostNode
+        for y in range(leftMostNode, rightMostNode + 1):
+            if y != leftMostNode and y != rightMostNode:
+                gameBoardLocationV2[y] = [0, y - int(x), y + int(x), y - int(x) + 1,
+                                          y + int(x) + 1]
+
+    if x == int(numLevels):
+
+        # determine the rightMostNode
+        rightMostNode = int((int(numLevels) * (int(numLevels) + 1) / 2))
+        print("right most node is: " + str(rightMostNode))
+        # determine the leftMostNode
+        leftMostNode = int(rightMostNode) - (int(numLevels) - 1)
+        print("Left most node is: " + str(leftMostNode))
+
+        # populate valid moves in the rightMostNode and leftMostNode
+        gameBoardLocationV2[rightMostNode] = [0, rightMostNode - int(numLevels), None, None, None]
+        gameBoardLocationV2[leftMostNode] = [0, None, None, leftMostNode - int(numLevels) + 1, None]
+
+        y = leftMostNode
+        for y in range(leftMostNode, rightMostNode + 1):
+            if y != leftMostNode and y != rightMostNode:
+                gameBoardLocationV2[y] = [0, y - int(numLevels), None, y - int(numLevels) + 1, None]
+
+# this code used to validate gameboard generation
+# for z in range(1, int(numNodes) + 1):
+#    print("Location: " + str(z) + " is " + str(gameBoardLocationV2[z]))
+
+
+'''
 
 # gameBoardLocation encoding
 gameBoardLocation[0] = [0, None, None, None, None]  # unused for this project
@@ -212,86 +258,118 @@ gameBoardLocation[18] = [0, 12, None, 13, None]
 gameBoardLocation[19] = [0, 13, None, 14, None]
 gameBoardLocation[20] = [0, 14, None, 15, None]
 gameBoardLocation[21] = [0, 15, None, None, None]
-
-# stillPlaying controls if the game is continuing to play.  Once all locations have been visited once, stillPlaying
-# will change to false and terminate the game
-stillPlaying = True
-diceRoll = 0
-currentLocation = 1  # game starts location 1.
-print("Game Location: " + str(currentLocation), end='')
-outputFile.write("Game Location: " + str(currentLocation))
-
-while stillPlaying:
-
-    # simulate a dice rolling by generating random value 1 to 4. Each value represents a direction to move as follows:
-    # 1 = Upper Left, 2 = Lower Left, 3 = Upper Right, 4 = Lower Right
-    diceRoll = random.randint(1, 4)
-    # added this sleep so I could watch the program execute instead of instantly complete.
-    # adjust this value to slow/down speed up the simulation
-    # commented out as not a requirement of this assignment.  uncomment out to restore delay
-    # time.sleep(0.015)
-
-# this section checks to see if the location selected by the dice roll is valid.  if so, updates the visit counter and
-# changes current location to the new location on the gameboard.
-# if the move is not valid, increments the counter for the currentlocation
-    if gameBoardLocation[currentLocation][diceRoll] is not None:
-        currentLocation = gameBoardLocation[currentLocation][diceRoll]
-        # for progam efficieny, commenting out the dottracking in the location tuple since this isn't used in the final
-        # calculations.  left for future use.
-        # gameBoardLocation[currentLocation][0] += 1
-        gameDotTracker[currentLocation] += 1
-        print(",", end='')
-        print(str(currentLocation), end='')
-        outputFile.write("," + str(currentLocation))
-        # commented code below allows for more verbose description of what is occurring in game
-        # print("Move valid.  New Location is " + str(currentLocation) + ". Incrementing count. Location " + str(currentLocation) +
-        # " has been visited " + str(gameBoardLocation[currentLocation][0]) + " times")
-    else:
-        # commented code below allows for more verbose description of what is occurring in game
-        # print("Unable to move.  Incrementing count for location " + str(currentLocation))
-        currentLocation = currentLocation
-        gameDotTracker[currentLocation] += 1
-        # for progam efficieny, commenting out the dottracking in the location tuple since this isn't used in the final
-        # calculations.  left for future use.
-        # gameBoardLocation[currentLocation][0] += 1
-        print(",", end='')
-        print(str(currentLocation), end='')
-        outputFile.write("," + str(currentLocation))
+# end encoding of gameboard V1
+'''
 
 
-# this code checks to see if 0 does not exist in the gameDotTracker array.  If not, stillPlaying changes to False and the game ends
-    if 0 not in gameDotTracker:
-        stillPlaying = False
-        print(".")
-        outputFile.write(".\n")
 
 
-# Reporting statistics
-print("\nGame Statistics:\n")
-outputFile.write("\nGame Statistics:\n\n")
 
-totalMoves = sum(gameDotTracker)
-# need to adjust off 1 move from totalMoves in each calculation due to the unused element 0 in gameDotTracker being
-# initalized to 1.
+runTimes = 0
 
-print("Total moves to complete the game: " + str(totalMoves - 1))
-outputFile.write("Total moves to complete the game: " + str(totalMoves - 1) + "\n")
-print("Average visits per location: " + str((totalMoves - 1)/21))
-outputFile.write("Average visits per location: " + str((totalMoves - 1)/21) + "\n")
-# find the maximum of dots on any one location
-maxDots = max(gameDotTracker)
-print("Maximum visits to any one location: " + str(maxDots))
-outputFile.write("Maximum visits to any one location: " + str(maxDots) + "\n")
+for runTimes in range(1, int(numTimesRan) + 1):
+    # stillPlaying controls if the game is continuing to play.  Once all locations have been visited once, stillPlaying
+    # will change to false and terminate the game
+    stillPlaying = True
 
-# this code finds each instance of the maximum number of dots in a location.
-# and prints the location to the screen and to file
-# commented out as this assignment does not request this output
-# for index, dots in enumerate(gameDotTracker, start=1):
-#    if dots == maxDots:
-        # need to adjust off 1 from the index due to gameDotTracker index beginning at 0 and that element is unused
-        # for this simulation
-#       print("Location " + str(index-1) + " had most visits of " + str(dots))
-#       outputFile.write("Location " + str(index-1) + " had most visits of " + str(dots) + "\n")
+    gameDotTrackerV2.clear()  # clear out the current dotTracker to make it ready for next run of the sim
+
+    # i start the 0 location as 1 so that the game can end if no 0s are found in the list.  this requires an adjustment of
+    # -1 to the game statistics
+    gameDotTrackerV2 = [0] * (numNodes + 1)
+    gameDotTrackerV2[0] = 1
+    # i opted to count the start of the game as a visit to location 1.  remove this initialization to not have the start
+    # counted as a visit
+    gameDotTrackerV2[1] = 1
+    diceRoll = 0
+    currentLocation = 1  # game starts location 1.
+    print("Game Location: " + str(currentLocation), end='')
+    outputFile.write("Game Location: " + str(currentLocation))
+
+    while stillPlaying:
+
+        # simulate a dice rolling by generating random value 1 to 4. Each value represents a direction to move as follows:
+        # 1 = Upper Left, 2 = Lower Left, 3 = Upper Right, 4 = Lower Right
+        diceRoll = random.randint(1, 4)
+        # added this sleep so I could watch the program execute instead of instantly complete.
+        # adjust this value to slow/down speed up the simulation
+        # commented out as not a requirement of this assignment.  uncomment out to restore delay
+        # time.sleep(0.015)
+
+    # this section checks to see if the location selected by the dice roll is valid.  if so, updates the visit counter and
+    # changes current location to the new location on the gameboard.
+    # if the move is not valid, increments the counter for the currentlocation
+        if gameBoardLocationV2[currentLocation][diceRoll] is not None:
+            currentLocation = gameBoardLocationV2[currentLocation][diceRoll]
+            # for progam efficieny, commenting out the dottracking in the location tuple since this isn't used in the final
+            # calculations.  left for future use.
+            # gameBoardLocation[currentLocation][0] += 1
+            gameDotTrackerV2[currentLocation] += 1
+            print(",", end='')
+            print(str(currentLocation), end='')
+            outputFile.write("," + str(currentLocation))
+            # commented code below allows for more verbose description of what is occurring in game
+            # print("Move valid.  New Location is " + str(currentLocation) + ". Incrementing count. Location " + str(currentLocation) +
+            # " has been visited " + str(gameBoardLocation[currentLocation][0]) + " times")
+        else:
+            # commented code below allows for more verbose description of what is occurring in game
+            # print("Unable to move.  Incrementing count for location " + str(currentLocation))
+            currentLocation = currentLocation
+            gameDotTrackerV2[currentLocation] += 1
+            # for progam efficieny, commenting out the dottracking in the location tuple since this isn't used in the final
+            # calculations.  left for future use.
+            # gameBoardLocation[currentLocation][0] += 1
+            print(",", end='')
+            print(str(currentLocation), end='')
+            outputFile.write("," + str(currentLocation))
+
+    # this code checks to see if 0 does not exist in the gameDotTracker array.  If not, stillPlaying changes to False and the game ends
+        if 0 not in gameDotTrackerV2:
+            stillPlaying = False
+            print(".")
+            outputFile.write(".\n")
+
+
+
+
+    # Reporting statistics
+
+
+    print("\nGame Statistics:\n")
+    outputFile.write("\nGame Statistics:\n\n")
+
+    # need to adjust off 1 move from totalMoves in each calculation due to the unused element 0 in gameDotTracker being
+    # initalized to 1.
+
+    # stores the total moves for each run of the sim
+    totalMoves: int = sum(gameDotTrackerV2)
+    allMoves[runTimes - 1] = (totalMoves - 1)
+
+    # print("Total moves to complete the game: " + str(totalMoves - 1))
+    # outputFile.write("Total moves to complete the game: " + str(totalMoves - 1) + "\n")
+    # print("Average visits per location: " + str((totalMoves - 1)/21))
+    # outputFile.write("Average visits per location: " + str((totalMoves - 1)/21) + "\n")
+    # find the maximum of dots on any one location
+    maxDots = max(gameDotTrackerV2)
+    maxMoves[runTimes - 1] = maxDots
+
+    # print("Maximum visits to any one location: " + str(maxDots))
+    # outputFile.write("Maximum visits to any one location: " + str(maxDots) + "\n")
+
+# Grand Total Statistics
+grandTotalMoves: int = sum(allMoves)
+print("Grand total of all moves: " + str(grandTotalMoves))
+averageMovesToCompleteTheSims = grandTotalMoves / int(numTimesRan)
+print("Average number of moves to complete each sim: " + str(averageMovesToCompleteTheSims))
+
+print(maxMoves)
+
+print("Minimum max moves is: " + str(min(maxMoves)))
+print("Maximum max moves is: " + str(max(maxMoves)))
+
+averageMaxMoves = (sum(maxMoves) / int(numTimesRan))
+print("Average number of max moves: " + str(averageMaxMoves))
+
 
 # close the file being written
 outputFile.close()
