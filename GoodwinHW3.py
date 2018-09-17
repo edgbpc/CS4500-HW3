@@ -1,6 +1,6 @@
 '''
 Eric Goodwin
-09-06-2018
+09-17-2018
 Python 3.7.0
 PyCharm IDE
 CS 4500 Introduction to the Software Profession
@@ -75,6 +75,10 @@ import random
 outputFile = open("HW3goodwinOutfile.txt", "w")
 
 introMessage = """Dice Rolling Simulation - 
+User to make three selections at the start of the simulation.
+Select yes or no to turn on or off verbose mode.  Verbose mode will display on screen a list of all nodes visted.
+Select number of levels of the pyramid between 2 and 25.
+Select number of times to run the simulation between 10 and 50.
 Program simulates navigating of a pyramid of integers using a four sided die.
 Number of the die indicates direction to travel on the pyramid.  If there is a valid location to travel to
 then the location is updated and that location is marked as visited.  Every visit is recorded.
@@ -88,6 +92,7 @@ outputFile.write(introMessage + "\n\n")
 # next section continually prompts until user selects yes or no for verbose mode.  verbose mode will show all
 # visited location.  input is made not cast sensitive by using .lower method
 # once valid entry is received, break from the while loop and proceed
+# verbose mode off still prints nodes visited to the output file.
 verboseModeAnswerNotValid = True
 verbose = False
 while verboseModeAnswerNotValid:
@@ -102,7 +107,7 @@ while verboseModeAnswerNotValid:
         verbose = False
         verboseModeAnswerNotValid = False
         break
-    if verboseMode is not {'yes', 'no'}:
+    if verboseMode is not {'yes', 'no'}: # if user input is not part of this set, loop while loop repeats until selected
         verboseModeAnswerNotValid = True
 
 
@@ -128,8 +133,8 @@ while numberOfLevelsIsNotValid:
 
 print("You entered " + numLevels + " levels for the pyramid")
 
-numberOfTimesSimRanIsNotValid = True # controls the while loop.  must become false to break the loop
-numTimesRan = 10 # declare number of times sim is ran.  default is 10
+numberOfTimesSimRanIsNotValid = True  # controls the while loop.  must become false to break the loop
+numTimesRan = 10  # declare number of times sim is ran.  default is 10
 
 while numberOfTimesSimRanIsNotValid:
     numTimesRan = input("Enter number of times to run the simulation between 10 and 50:")
@@ -235,6 +240,7 @@ for level in range(1, (int(numLevels) + 1)):
         gameBoardLocationV2[rightMostNode] = [0, rightMostNode - int(numLevels), None, None, None]
         gameBoardLocationV2[leftMostNode] = [0, None, None, leftMostNode - int(numLevels) + 1, None]
 
+        # begin building internal nodes at the leftmostnode
         internalNode = leftMostNode
         for internalNode in range(leftMostNode, rightMostNode + 1):
             if internalNode != leftMostNode and internalNode != rightMostNode:
@@ -248,6 +254,8 @@ for level in range(1, (int(numLevels) + 1)):
 
 
 '''
+left this code so i could validate the results of the generated lists.  the above code if ran with 6 levels generates 
+identical list to the below encoding
 
 # gameBoardLocation encoding
 gameBoardLocation[0] = [0, None, None, None, None]  # unused for this project
@@ -413,6 +421,9 @@ outputFile.close()
 # git used for version control.
 # tested upper and lower boundries for number of levels and number of times to run sim
 # tested to validate user input is an int
+# validated the generation of levels against original encoding.
+# tested verbose on and off.  results as expected
+
 
 
 
