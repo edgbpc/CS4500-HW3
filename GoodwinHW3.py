@@ -92,7 +92,7 @@ outputFile.write(introMessage + "\n\n")
 # next section continually prompts until user selects yes or no for verbose mode.  verbose mode will show all
 # visited location.  input is made not cast sensitive by using .lower method
 # once valid entry is received, break from the while loop and proceed
-# verbose mode off still prints nodes visited to the output file.
+# verbose mode off prevents display visited nodes from both screen and output file.  clarified in class
 verboseModeAnswerNotValid = True
 verbose = False
 while verboseModeAnswerNotValid:
@@ -308,7 +308,7 @@ for runTimes in range(1, int(numTimesRan) + 1):
     currentLocation = 1  # game starts location 1.
     if verbose == True:
         print("Game Location: " + str(currentLocation), end='')
-    outputFile.write("Game Location: " + str(currentLocation))
+        outputFile.write("Game Location: " + str(currentLocation))
 
     while stillPlaying:
 
@@ -332,7 +332,7 @@ for runTimes in range(1, int(numTimesRan) + 1):
             if verbose == True:
                 print(",", end='')
                 print(str(currentLocation), end='')
-            outputFile.write("," + str(currentLocation))
+                outputFile.write("," + str(currentLocation))
             # commented code below allows for more verbose description of what is occurring in game
             # print("Move valid.  New Location is " + str(currentLocation) + ". Incrementing count. Location " + str(currentLocation) +
             # " has been visited " + str(gameBoardLocation[currentLocation][0]) + " times")
@@ -347,14 +347,14 @@ for runTimes in range(1, int(numTimesRan) + 1):
             if verbose == True:
                 print(",", end='')
                 print(str(currentLocation), end='')
-            outputFile.write("," + str(currentLocation))
+                outputFile.write("," + str(currentLocation))
 
     # this code checks to see if 0 does not exist in the gameDotTracker array.  If not, stillPlaying changes to False and the game ends
         if 0 not in gameDotTrackerV2:
             stillPlaying = False
             if verbose == True:
                 print(".")
-            outputFile.write(".\n")
+                outputFile.write(".\n")
 
 
     # Reporting statistics
